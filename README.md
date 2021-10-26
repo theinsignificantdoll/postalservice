@@ -5,7 +5,9 @@ postservice.py opens a server on port 28729, as of 25. Oct 2021.
 
 each message the server receives should start with "<<START>>" and end with "<<END>>". Please note that all messages should be ASCII
   if the first seven digits of the received message (not counting <<START>>) are "SETRECV" then
-    the server will make the remaining characters in the message in a dictionary, to which the value is a list containing the client.
+    the server will make the remaining characters in the message in a dictionary, to which the value is a list containing the client(s).
+  if the first seven digits are "DELRECV" then
+    the server will unregister / remove the client from the tag-receiver-list
  
   otherwise the server will split the message into two string, splitting by "<<||>>". it will then send a copy of the originally received message to all client registered to the key.
 
@@ -19,6 +21,12 @@ postcomm.py is the client side module for dealing with the server.
   
   .tags(self, tags)
     same as the above, but takes a list of tags instead of a single string.
+  
+  .deltag(self, tag)
+    unregisters a tag.
+  
+  .deltags(self, tags)
+    unregisters a list (iterable) of tags
   
   .readable(self)
     returns True if a message can be read. if not returns false.
