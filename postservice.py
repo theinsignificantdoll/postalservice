@@ -1,6 +1,8 @@
 import socket
 import select
 import time
+
+
 globsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 globsocket.bind(("127.0.0.1", 28729))
 globsocket.listen(5)
@@ -58,6 +60,11 @@ class Connection:
                         dictal[recv[7:]] = [self]
                     else:
                         dictal[recv[7:]].append(self)
+                    continue
+
+                elif recv[:7] == "DELRECV":
+                    if self in dictal[recv[7:]]:
+                        dictal[recv[7:]].remove(self)
                     continue
             except IndexError:
                 pass

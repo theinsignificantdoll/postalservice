@@ -20,6 +20,13 @@ class PostController:
         for tag in tags:
             self.tag(tag)
 
+    def deltag(self, tag):
+        self.sock.sendall(f"<<START>>DELRECV{tag}<<END>>".encode("ASCII", "ignore"))
+
+    def deltags(self, tags):
+        for tag in tags:
+            self.deltag(tag)
+
     def readable(self):
         if self.buffer:
             return True
